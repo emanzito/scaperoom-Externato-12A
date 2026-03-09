@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitória - Escape da Escola Misteriosa</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="victory">
+        <h1>Parabéns! Escapaste da Escola Misteriosa!</h1>
+        <p id="time-left"></p>
+        <button onclick="restart()">Jogar Novamente</button>
+    </div>
+    <script src="../js/script.js"></script>
+    <script>
+        window.onload = function() {
+            let timeLeft = parseInt(localStorage.getItem('timeLeft')) || 0;
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            document.getElementById('time-left').textContent = `Tempo restante: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        };
+    </script>
+</body>
+</html>

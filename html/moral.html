@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moral - Escape da Escola Misteriosa</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="room">
+        <h2>Moral</h2>
+        <div id="puzzle">
+            <p>O que significa 'empatia' em termos éticos?</p>
+            <input type="text" id="answer-input">
+        </div>
+        <button onclick="backToMap()">Voltar ao Mapa</button>
+        <div id="feedback"></div>
+    </div>
+    <script src="../js/script.js"></script>
+    <script>
+        document.getElementById('room').style.backgroundImage = "url('../moral-room.jpg')";
+        document.getElementById('answer-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitAnswer('moral');
+            }
+        });
+
+        function submitAnswer(subject) {
+            const answer = document.getElementById('answer-input').value.toLowerCase().trim();
+            const correct = puzzles[subject].answer.toLowerCase();
+            if (answer === correct && !codes[subject]) {
+                codes[subject] = true;
+                saveGame();
+                document.getElementById('feedback').textContent = 'Correto! Código obtido.';
+            } else if (codes[subject]) {
+                document.getElementById('feedback').textContent = 'Já resolvido!';
+            } else {
+                document.getElementById('feedback').textContent = 'Errado. Tenta novamente.';
+            }
+        }
+
+        function backToMap() {
+            window.location = '../index.html';
+        }
+    </script>
+</body>
+</html>

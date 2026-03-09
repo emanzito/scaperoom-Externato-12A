@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psicologia - Escape da Escola Misteriosa</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="room">
+        <h2>Psicologia</h2>
+        <div id="puzzle">
+            <p>Qual é o nome do efeito onde as pessoas seguem o grupo mesmo sabendo que está errado? (Dica: Asch)</p>
+            <input type="text" id="answer-input">
+        </div>
+        <button onclick="backToMap()">Voltar ao Mapa</button>
+        <div id="feedback"></div>
+    </div>
+    <script src="../js/script.js"></script>
+    <script>
+        document.getElementById('room').style.backgroundImage = "url('../psicologia-room.jpg')";
+        document.getElementById('answer-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitAnswer('psicologia');
+            }
+        });
+
+        function submitAnswer(subject) {
+            const answer = document.getElementById('answer-input').value.toLowerCase().trim();
+            const correct = puzzles[subject].answer.toLowerCase();
+            if (answer === correct && !codes[subject]) {
+                codes[subject] = true;
+                saveGame();
+                document.getElementById('feedback').textContent = 'Correto! Código obtido.';
+            } else if (codes[subject]) {
+                document.getElementById('feedback').textContent = 'Já resolvido!';
+            } else {
+                document.getElementById('feedback').textContent = 'Errado. Tenta novamente.';
+            }
+        }
+
+        function backToMap() {
+            window.location = '../index.html';
+        }
+    </script>
+</body>
+</html>

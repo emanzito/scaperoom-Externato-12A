@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+}
+#container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#map {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url('../mapa-escola.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.hotspot {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: yellow;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: black;
+    font-size: 12px;
+    text-align: center;
+}
+.hotspot:hover {
+    background-color: orange;
+}
+#timer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    background-color: rgba(0,0,0,0.7);
+    padding: 10px;
+    border-radius: 5px;
+}
+#room {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+#room h2 {
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+#puzzle {
+    margin-bottom: 20px;
+}
+#puzzle p {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 5px;
+}
+input, select {
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+    background: rgba(255,255,255,0.8);
+    color: black;
+    border: 1px solid #ccc;
+}
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+button:hover {
+    background-color: #45a049;
+}
+#feedback {
+    margin-top: 20px;
+    font-size: 18px;
+}
+#victory {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
