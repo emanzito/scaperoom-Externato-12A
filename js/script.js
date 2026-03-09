@@ -18,22 +18,22 @@ const puzzles = {
     portugues: {
         question: "Qual é o antónimo de 'alegre'?",
         type: "input",
-        answer: "triste"
+        answer: "Triste"
     },
     psicologia: {
         question: "Qual é o nome do efeito onde as pessoas seguem o grupo mesmo sabendo que está errado? (Dica: Asch)",
         type: "input",
-        answer: "conformidade"
+        answer: "Conformidade"
     },
     biologia: {
         question: "Qual é o órgão responsável pela respiração nos humanos?",
         type: "input",
-        answer: "pulmões"
+        answer: "Pulmões"
     },
     moral: {
         question: "O que significa 'empatia' em termos éticos?",
         type: "input",
-        answer: "colocar-se no lugar do outro"
+        answer: "Colocar-se no lugar do outro"
     },
     educacao: {
         question: "Num jogo de vólei, quantos pontos uma equipa precisa marcar para ganhar?",
