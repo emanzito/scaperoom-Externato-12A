@@ -98,7 +98,7 @@ function restart() {
     timeLeft = 60 * 60;
     localStorage.setItem('codes', JSON.stringify(codes));
     localStorage.setItem('timeLeft', timeLeft);
-    window.location = 'index.html';
+    window.location.href = window.location.href.replace(/\/html\/.*/, '/index.html');
 }
 
 // Initialize
