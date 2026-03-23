@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saída - Escape Room</title>
+    <link rel="icon" type="image/png" href="../images/logo.png">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { min-height: 100vh; background: #0a0a0a; display: flex; align-items: center; justify-content: center; font-family: system-ui, -apple-system, sans-serif; overflow: hidden; position: relative; }
+        .grid-overlay { position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 4px); pointer-events: none; }
+        .line-v { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 1px; height: 100%; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.05), transparent); pointer-events: none; }
+        .line-h { position: fixed; top: 50%; left: 0; transform: translateY(-50%); width: 100%; height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent); pointer-events: none; }
+        .corner { position: fixed; width: 24px; height: 24px; }
+        .corner.tl { top:1.5rem;left:1.5rem;border-top:1px solid rgba(255,255,255,0.2);border-left:1px solid rgba(255,255,255,0.2); }
+        .corner.tr { top:1.5rem;right:1.5rem;border-top:1px solid rgba(255,255,255,0.2);border-right:1px solid rgba(255,255,255,0.2); }
+        .corner.bl { bottom:1.5rem;left:1.5rem;border-bottom:1px solid rgba(255,255,255,0.2);border-left:1px solid rgba(255,255,255,0.2); }
+        .corner.br { bottom:1.5rem;right:1.5rem;border-bottom:1px solid rgba(255,255,255,0.2);border-right:1px solid rgba(255,255,255,0.2); }
+
+        main { text-align: center; position: relative; z-index: 1; animation: fadeUp 0.9s ease both; padding: 2rem; max-width: 680px; width: 100%; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+        .label { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 2rem; }
+        .label-line { height: 1px; width: 40px; background: rgba(255,255,255,0.18); }
+        .label-text { font-size: 11px; letter-spacing: 4px; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+
+        h1 { font-size: clamp(1.8rem,4vw,3rem); font-weight: 300; color: #fff; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
+
+        .words-collected { margin: 2rem 0; padding: 1.5rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; }
+        .words-label { font-size: 11px; letter-spacing: 3px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 1rem; }
+        .words-list { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .word-badge { padding: 6px 14px; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); border-radius: 4px; font-size: 13px; font-weight: 600; letter-spacing: 2px; color: #4ade80; }
+        .word-badge.missing { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.2); letter-spacing: 1px; font-weight: 400; font-size: 12px; }
+
+        .phrase-hint { font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 1px; margin-bottom: 2rem; }
+
+        .input-group { position: relative; margin-bottom: 1rem; }
+        input[type="text"] { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 14px 20px; font-size: 15px; color: #fff; outline: none; transition: border-color 0.2s; font-family: monospace; text-align: center; letter-spacing: 2px; }
+        input[type="text"]:focus { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.08); }
+        input[type="text"].success { border-color: rgba(74,222,128,0.5); }
+        input[type="text"].error { border-color: rgba(248,113,113,0.5); }
+
+        .btn { display: inline-block; background: #ffffff; color: #0a0a0a; text-decoration: none; padding: 14px 44px; font-size: 13px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; border-radius: 2px; transition: all 0.2s; border: none; cursor: pointer; font-family: inherit; }
+        .btn:hover { background: rgba(255,255,255,0.88); transform: translateY(-1px); }
+        .btn:active { transform: scale(0.97); }
+
+        #feedback { font-size: 13px; letter-spacing: 1px; min-height: 20px; margin-top: 0.75rem; }
+        #feedback.wrong { color: #f87171; }
+        #feedback.correct { color: #4ade80; }
+
+        .creators { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); font-size: 11px; color: rgba(255,255,255,0.15); letter-spacing: 3px; text-transform: uppercase; white-space: nowrap; }
+    </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    <div class="line-v"></div>
+    <div class="line-h"></div>
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+
+    <main>
+        <div class="label">
+            <div class="label-line"></div>
+            <span class="label-text">Saída Final</span>
+            <div class="label-line"></div>
+        </div>
+
+        <h1>A Porta da Saída</h1>
+        <p style="font-size:15px;color:rgba(255,255,255,0.4);margin:0.75rem 0 2rem;letter-spacing:1px;">Junta todas as palavras e descobre a frase secreta</p>
+
+        <div class="words-collected">
+            <p class="words-label">Palavras recolhidas</p>
+            <div class="words-list" id="words-list"></div>
+        </div>
+
+        <p class="phrase-hint">Escreve a frase completa com as palavras acima, pela ordem correta</p>
+
+        <div class="input-group">
+            <input type="text" id="phrase-input" placeholder="Escreve a frase aqui...">
+        </div>
+
+        <button class="btn" onclick="checkPhrase()">Escapar</button>
+        <div id="feedback"></div>
+    </main>
+
+    <div class="creators">Criado por André · Emanuel · Fernando</div>
+
+    <script src="../js/script.js"></script>
+    <script>
+        const ALL_SUBJECTS = ['mosteiro','basto','senhorinha','romaria','jogopau','tamega','cabreira','math','portugues','biologia','educacao','psicologia','moral'];
+
+        window.onload = function() {
+            const list = document.getElementById('words-list');
+            ALL_SUBJECTS.forEach(s => {
+                const badge = document.createElement('span');
+                if (codes[s]) {
+                    badge.className = 'word-badge';
+                    badge.textContent = puzzleWords[s].word;
+                } else {
+                    badge.className = 'word-badge missing';
+                    badge.textContent = '???';
+                }
+                list.appendChild(badge);
+            });
+        };
+
+        document.getElementById('phrase-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPhrase();
+        });
+
+        function checkPhrase() {
+            const input = document.getElementById('phrase-input');
+            const feedback = document.getElementById('feedback');
+            const answer = input.value.trim().toUpperCase();
+
+            if (answer === FINAL_PHRASE) {
+                input.className = 'success';
+                feedback.textContent = '';
+                localStorage.setItem('timeLeft', timeLeft);
+                setTimeout(() => { window.location = 'victory.html'; }, 600);
+            } else {
+                input.className = 'error';
+                feedback.textContent = '✗ Frase incorreta. Verifica as palavras!';
+                feedback.className = 'wrong';
+                setTimeout(() => { input.className = ''; }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>

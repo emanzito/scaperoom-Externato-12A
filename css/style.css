@@ -1,118 +1,36 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #000;
-    color: #fff;
-    overflow: hidden;
-}
-#container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#map {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-image: url('../images/photo-above-cut.jpg');
-    background-size: cover;
-    background-position: center;
-}
-.hotspot {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: yellow;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    color: black;
-    font-size: 12px;
-    text-align: center;
-}
-.hotspot:hover {
-    background-color: orange;
-}
-#timer {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    background-color: rgba(0,0,0,0.7);
-    padding: 10px;
-    border-radius: 5px;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a0a; color: #fff; overflow: hidden; width: 100vw; height: 100vh; }
+#container { position: relative; width: 100vw; height: 100vh; }
+#map { position: relative; width: 100%; height: 100%; background-size: cover; background-position: center; }
+
 #room {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: white;
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 2rem;
+    background: rgba(0,0,0,0.82);
 }
-#room h2 {
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-}
-#puzzle {
-    margin-bottom: 20px;
-}
-#puzzle p {
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    background: rgba(0,0,0,0.5);
-    padding: 10px;
-    border-radius: 5px;
-}
-input, select {
-    padding: 10px;
-    margin: 10px;
-    font-size: 16px;
-    background: rgba(255,255,255,0.8);
-    color: black;
-    border: 1px solid #ccc;
-}
-button {
-    padding: 10px 20px;
-    margin: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-button:hover {
-    background-color: #45a049;
-}
-#feedback {
-    margin-top: 20px;
-    font-size: 18px;
-}
-#victory {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.9);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
+.room-tag { font-size: 11px; letter-spacing: 4px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 0.75rem; }
+#room h2 { font-size: clamp(1.8rem,4vw,3rem); font-weight: 300; color: #fff; letter-spacing: -0.5px; }
+.room-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.2); margin: 1rem auto 1.5rem; }
+
+#puzzle { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 2rem 2.5rem; max-width: 560px; width: 100%; margin-bottom: 1.5rem; }
+#puzzle p { font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.85); margin-bottom: 1.5rem; }
+
+input[type="text"] { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 12px 16px; font-size: 16px; color: #fff; outline: none; transition: border-color 0.2s; font-family: inherit; text-align: center; letter-spacing: 1px; }
+input[type="text"]:focus { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); }
+
+.btn-row { display: flex; gap: 12px; justify-content: center; margin-bottom: 1.5rem; }
+button { padding: 11px 28px; font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: rgba(255,255,255,0.7); transition: all 0.2s; font-family: inherit; }
+button:hover { background: rgba(255,255,255,0.08); color: #fff; }
+button:active { transform: scale(0.97); }
+button.primary { background: #fff; color: #0a0a0a; border-color: #fff; }
+button.primary:hover { background: rgba(255,255,255,0.88); }
+
+#feedback { font-size: 14px; letter-spacing: 1px; min-height: 24px; }
+#feedback.correct { color: #4ade80; }
+#feedback.wrong { color: #f87171; }
+#feedback.already { color: rgba(255,255,255,0.4); }
+
+#victory { position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #0a0a0a; padding: 2rem; }
+#victory h1 { font-size: clamp(2rem,5vw,3.5rem); font-weight: 300; margin-bottom: 1rem; letter-spacing: -1px; }
+#victory p { font-size: 16px; color: rgba(255,255,255,0.45); margin-bottom: 2.5rem; letter-spacing: 1px; }

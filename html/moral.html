@@ -3,46 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moral - Escape Room Colégio</title>
+    <title>Moral - Escape Room</title>
     <link rel="icon" type="image/png" href="../images/logo.png">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <div id="room">
-        <h2>Moral</h2>
-        <div id="puzzle">
-            <p>O que significa 'empatia' em termos éticos?</p>
-            <input type="text" id="answer-input">
+        <div>
+            <p class="room-tag">Disciplinas · Sala 13</p>
+            <h2>Moral</h2>
+            <div class="room-divider"></div>
         </div>
-        <button onclick="backToMap()">Voltar ao Mapa</button>
+        <div id="puzzle">
+            <p id="question-text"></p>
+            <input type="text" id="answer-input" placeholder="A tua resposta...">
+        </div>
+        <div class="btn-row">
+            <button onclick="backToMap()">← Mapa</button>
+            <button class="primary" onclick="submitAnswer('moral')">Confirmar</button>
+        </div>
         <div id="feedback"></div>
+        <div id="word-reveal" style="margin-top:1.5rem;font-size:2rem;font-weight:600;letter-spacing:6px;color:#4ade80;opacity:0;transition:opacity 0.5s;"></div>
     </div>
     <script src="../js/script.js"></script>
     <script>
-        document.getElementById('room').style.backgroundImage = "url('../moral-room.jpg')";
+        document.getElementById('question-text').textContent = puzzles['moral'].question;
+        if (codes['moral']) {
+            document.getElementById('feedback').innerHTML = 'Já resolveste este enigma! Palavra: <strong>' + puzzleWords['moral'].word + '</strong>';
+            document.getElementById('feedback').className = 'already';
+            document.getElementById('answer-input').disabled = true;
+            document.getElementById('word-reveal').textContent = puzzleWords['moral'].word;
+            document.getElementById('word-reveal').style.opacity = '1';
+        }
         document.getElementById('answer-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitAnswer('moral');
-            }
+            if (e.key === 'Enter') submitAnswer('moral');
         });
-
-        function submitAnswer(subject) {
-            const answer = document.getElementById('answer-input').value.toLowerCase().trim();
-            const correct = puzzles[subject].answer.toLowerCase();
-            if (answer === correct && !codes[subject]) {
-                codes[subject] = true;
-                saveGame();
-                document.getElementById('feedback').textContent = 'Correto! Código obtido.';
-            } else if (codes[subject]) {
-                document.getElementById('feedback').textContent = 'Já resolvido!';
-            } else {
-                document.getElementById('feedback').textContent = 'Errado. Tenta novamente.';
-            }
-        }
-
-        function backToMap() {
-            window.location = '../index.html';
-        }
     </script>
 </body>
 </html>

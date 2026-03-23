@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Português - Escape Room</title>
+    <title>O Foral - Escape Room</title>
     <link rel="icon" type="image/png" href="../images/logo.png">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <div id="room">
         <div>
-            <p class="room-tag">Disciplinas · Sala 9</p>
-            <h2>Português</h2>
+            <p class="room-tag">Enigma · Sala 9</p>
+            <h2>O Foral</h2>
             <div class="room-divider"></div>
         </div>
         <div id="puzzle">
@@ -20,23 +20,20 @@
         </div>
         <div class="btn-row">
             <button onclick="backToMap()">← Mapa</button>
-            <button class="primary" onclick="submitAnswer('portugues')">Confirmar</button>
+            <button class="primary" onclick="submitAnswer('foral')">Confirmar</button>
         </div>
         <div id="feedback"></div>
-        <div id="word-reveal" style="margin-top:1.5rem;font-size:2rem;font-weight:600;letter-spacing:6px;color:#4ade80;opacity:0;transition:opacity 0.5s;"></div>
     </div>
     <script src="../js/script.js"></script>
     <script>
-        document.getElementById('question-text').textContent = puzzles['portugues'].question;
-        if (codes['portugues']) {
-            document.getElementById('feedback').innerHTML = 'Já resolveste este enigma! Palavra: <strong>' + puzzleWords['portugues'].word + '</strong>';
+        document.getElementById('question-text').textContent = puzzles['foral'].question;
+        if (codes['foral']) {
+            document.getElementById('feedback').textContent = 'Já resolveste este enigma!';
             document.getElementById('feedback').className = 'already';
             document.getElementById('answer-input').disabled = true;
-            document.getElementById('word-reveal').textContent = puzzleWords['portugues'].word;
-            document.getElementById('word-reveal').style.opacity = '1';
         }
         document.getElementById('answer-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') submitAnswer('portugues');
+            if (e.key === 'Enter') submitAnswer('foral');
         });
     </script>
 </body>

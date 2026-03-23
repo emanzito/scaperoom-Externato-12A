@@ -3,46 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matemática - Escape Room Colégio</title>
+    <title>Mosteiro - Escape Room</title>
     <link rel="icon" type="image/png" href="../images/logo.png">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <div id="room">
-        <h2>Matemática</h2>
-        <div id="puzzle">
-            <p>Qual é a área de um triângulo com base 10 e altura 5?</p>
-            <input type="text" id="answer-input">
+        <div>
+            <p class="room-tag">Cabeceiras de Basto · Sala 1</p>
+            <h2>Mosteiro</h2>
+            <div class="room-divider"></div>
         </div>
-        <button onclick="backToMap()">Voltar ao Mapa</button>
+        <div id="puzzle">
+            <p id="question-text"></p>
+            <input type="text" id="answer-input" placeholder="A tua resposta...">
+        </div>
+        <div class="btn-row">
+            <button onclick="backToMap()">← Mapa</button>
+            <button class="primary" onclick="submitAnswer('mosteiro')">Confirmar</button>
+        </div>
         <div id="feedback"></div>
+        <div id="word-reveal" style="margin-top:1.5rem;font-size:2rem;font-weight:600;letter-spacing:6px;color:#4ade80;opacity:0;transition:opacity 0.5s;"></div>
     </div>
     <script src="../js/script.js"></script>
     <script>
-        document.getElementById('room').style.backgroundImage = "url('../math-room.jpg')";
+        document.getElementById('question-text').textContent = puzzles['mosteiro'].question;
+        if (codes['mosteiro']) {
+            document.getElementById('feedback').innerHTML = 'Já resolveste este enigma! Palavra: <strong>' + puzzleWords['mosteiro'].word + '</strong>';
+            document.getElementById('feedback').className = 'already';
+            document.getElementById('answer-input').disabled = true;
+            document.getElementById('word-reveal').textContent = puzzleWords['mosteiro'].word;
+            document.getElementById('word-reveal').style.opacity = '1';
+        }
         document.getElementById('answer-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitAnswer('math');
-            }
+            if (e.key === 'Enter') submitAnswer('mosteiro');
         });
-
-        function submitAnswer(subject) {
-            const answer = document.getElementById('answer-input').value.toLowerCase().trim();
-            const correct = puzzles[subject].answer.toLowerCase();
-            if (answer === correct && !codes[subject]) {
-                codes[subject] = true;
-                saveGame();
-                document.getElementById('feedback').textContent = 'Correto! Código obtido.';
-            } else if (codes[subject]) {
-                document.getElementById('feedback').textContent = 'Já resolvido!';
-            } else {
-                document.getElementById('feedback').textContent = 'Errado. Tenta novamente.';
-            }
-        }
-
-        function backToMap() {
-            window.location = '../index.html';
-        }
     </script>
 </body>
 </html>

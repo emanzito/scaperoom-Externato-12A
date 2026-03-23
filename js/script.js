@@ -1,44 +1,84 @@
 let codes = JSON.parse(localStorage.getItem('codes')) || {
-    math: false,
-    portugues: false,
-    psicologia: false,
-    biologia: false,
-    moral: false,
-    educacao: false
+    mosteiro: false, basto: false, senhorinha: false,
+    romaria: false, jogopau: false, tamega: false, cabreira: false,
+    math: false, portugues: false, biologia: false,
+    educacao: false, psicologia: false, moral: false
 };
-let timeLeft = parseInt(localStorage.getItem('timeLeft')) || 60 * 60;
+let timeLeft = parseInt(localStorage.getItem('timeLeft')) || 7 * 60;
 let timerInterval;
 
+// Frase final: "BASTO É TERRA DE TRADIÇÃO VIVA E HISTÓRIA"
+const puzzleWords = {
+    mosteiro:  { word: "BASTO",    order: 1 },
+    basto:     { word: "É",        order: 2 },
+    senhorinha:{ word: "TERRA",    order: 3 },
+    romaria:   { word: "DE",       order: 4 },
+    jogopau:   { word: "TRADIÇÃO", order: 5 },
+    tamega:    { word: "VIVA",     order: 6 },
+    cabreira:  { word: "E",        order: 7 },
+    math:      { word: "HISTÓRIA", order: 8 },
+    portugues: { word: "DE",       order: 9 },
+    biologia:  { word: "UM",       order: 10 },
+    educacao:  { word: "POVO",     order: 11 },
+    psicologia:{ word: "COM",      order: 12 },
+    moral:     { word: "ALMA",     order: 13 }
+};
+// Frase completa: BASTO É TERRA DE TRADIÇÃO VIVA E HISTÓRIA DE UM POVO COM ALMA
+
+const FINAL_PHRASE = "BASTO É TERRA DE TRADIÇÃO VIVA E HISTÓRIA DE UM POVO COM ALMA";
+
 const puzzles = {
+    mosteiro: {
+        question: "Como se chama o mosteiro mais famoso de Cabeceiras de Basto, localizado em Refojos (escreve o nome completo, não abreviações como S.)?",
+        answer: "Mosteiro de São Miguel de Refojos"
+    },
+    basto: {
+        question: "O que representa a estátua do Basto, símbolo da vila, na Praça da República?",
+        answer: "Guerreiro lusitano"
+    },
+    senhorinha: {
+        question: "Qual é o nome da santa padroeira de Basto, cuja festa remonta à fundação de Portugal?",
+        answer: "Santa Senhorinha"
+    },
+    romaria: {
+        question: "A maior romaria de Cabeceiras de Basto celebra qual santa?",
+        answer: "Nossa Senhora dos Remédios"
+    },
+    jogopau: {
+        question: "Qual é a arte marcial tradicional de Cabeceiras de Basto, inscrita no Património Cultural Imaterial em 2023?",
+        answer: "Jogo do Pau"
+    },
+    tamega: {
+        question: "Qual é o nome do rio que banha Cabeceiras de Basto?",
+        answer: "Tâmega"
+    },
+    cabreira: {
+        question: "Qual é o nome da serra que envolve Cabeceiras de Basto a norte?",
+        answer: "Serra da Cabreira"
+    },
     math: {
-        question: "Qual é a área de um triângulo com base 10 e altura 5?",
-        type: "input",
-        answer: "25"
+        question: "Se tens 20 rebuçados e comes metade, quantos ficam?",
+        answer: "10"
     },
     portugues: {
-        question: "Qual é o antónimo de 'alegre'?",
-        type: "input",
-        answer: "Triste"
-    },
-    psicologia: {
-        question: "Qual é o nome do efeito onde as pessoas seguem o grupo mesmo sabendo que está errado? (Dica: Asch)",
-        type: "input",
-        answer: "Conformidade"
+        question: "Qual é o plural de 'cão'?",
+        answer: "Cães"
     },
     biologia: {
-        question: "Qual é o órgão responsável pela respiração nos humanos?",
-        type: "input",
-        answer: "Pulmões"
-    },
-    moral: {
-        question: "O que significa 'empatia' em termos éticos?",
-        type: "input",
-        answer: "Colocar-se no lugar do outro"
+        question: "Qual é o órgão que bombeia o sangue no corpo humano?",
+        answer: "Coração"
     },
     educacao: {
-        question: "Num jogo de vólei, quantos pontos uma equipa precisa marcar para ganhar?",
-        type: "input",
-        answer: "25"
+        question: "Quantos jogadores tem uma equipa de futebol em campo?",
+        answer: "11"
+    },
+    psicologia: {
+        question: "Como se chama o estudo que estuda a mente e os comportamentos humanos?",
+        answer: "Psicologia"
+    },
+    moral: {
+        question: "Completa o ditado: \"Faz o bem sem olhar a...\"",
+        answer: "Quem"
     }
 };
 
@@ -53,7 +93,10 @@ function startTimer() {
         saveGame();
         let minutes = Math.floor(timeLeft / 60);
         let seconds = timeLeft % 60;
-        document.getElementById('timer').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        const timerEl = document.getElementById('timer');
+        if (!timerEl) return;
+        timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        if (timeLeft <= 120) timerEl.classList.add('warning');
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             alert("O tempo acabou! Tenta novamente.");
@@ -63,48 +106,81 @@ function startTimer() {
 }
 
 function enterRoom(subject) {
-    window.location = `html/${subject}.html`;
-}
-
-function checkExit() {
-    const allSolved = Object.values(codes).every(code => code);
-    if (allSolved) {
-        document.getElementById('exit').style.backgroundColor = 'green';
-    }
+    window.location = `${subject}.html`;
 }
 
 function tryExit() {
-    const allSolved = Object.values(codes).every(code => code);
+    const allSolved = Object.values(codes).every(c => c);
     if (allSolved) {
         clearInterval(timerInterval);
-        let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
         localStorage.setItem('timeLeft', timeLeft);
-        window.location = 'html/victory.html';
+        window.location = 'saida.html';
     } else {
-        alert("Ainda não resolviste todos os enigmas!");
+        const remaining = Object.entries(codes).filter(([,v]) => !v).length;
+        alert(`Ainda faltam ${remaining} enigma(s) por resolver!`);
     }
+}
+
+function getCollectedWords() {
+    return Object.entries(puzzleWords)
+        .filter(([subject]) => codes[subject])
+        .sort((a, b) => a[1].order - b[1].order)
+        .map(([, data]) => data.word);
+}
+
+function submitAnswer(subject) {
+    const input = document.getElementById('answer-input');
+    const feedback = document.getElementById('feedback');
+    const answer = input.value.trim().toLowerCase();
+    const correct = puzzles[subject].answer.toLowerCase();
+
+    if (codes[subject]) {
+        feedback.textContent = 'Já resolveste este enigma!';
+        feedback.className = 'already';
+        return;
+    }
+    if (answer === correct) {
+        codes[subject] = true;
+        saveGame();
+        const word = puzzleWords[subject].word;
+        feedback.innerHTML = `✓ Correto! Palavra obtida: <strong>${word}</strong>`;
+        feedback.className = 'correct';
+        input.disabled = true;
+
+        // show word reveal
+        const reveal = document.getElementById('word-reveal');
+        if (reveal) {
+            reveal.textContent = word;
+            reveal.style.opacity = '1';
+        }
+    } else {
+        feedback.textContent = '✗ Resposta incorreta. Tenta novamente.';
+        feedback.className = 'wrong';
+        input.value = '';
+        input.focus();
+    }
+}
+
+function backToMap() {
+    window.location = 'pagina-inicial.html';
 }
 
 function restart() {
     codes = {
-        math: false,
-        portugues: false,
-        psicologia: false,
-        biologia: false,
-        moral: false,
-        educacao: false
+        mosteiro: false, basto: false, senhorinha: false,
+        romaria: false, jogopau: false, tamega: false, cabreira: false,
+        math: false, portugues: false, biologia: false,
+        educacao: false, psicologia: false, moral: false
     };
-    timeLeft = 60 * 60;
+    timeLeft = 7 * 60;
     localStorage.setItem('codes', JSON.stringify(codes));
     localStorage.setItem('timeLeft', timeLeft);
-    window.location.href = window.location.href.replace(/\/html\/.*/, '/index.html');
+    window.location.href = 'pagina-inicial.html';
 }
 
-// Initialize
 window.onload = function() {
     if (document.getElementById('timer')) {
         startTimer();
-        checkExit();
+        if (typeof updateDots === 'function') updateDots();
     }
 };
