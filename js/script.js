@@ -4,7 +4,7 @@ let codes = JSON.parse(localStorage.getItem('codes')) || {
     math: false, portugues: false, biologia: false,
     educacao: false, psicologia: false, moral: false
 };
-let timeLeft = parseInt(localStorage.getItem('timeLeft')) || 7 * 60;
+let timeLeft = parseInt(localStorage.getItem('timeLeft')) || 12 * 60;
 let timerInterval;
 
 // Frase final: "BASTO É TERRA DE TRADIÇÃO VIVA E HISTÓRIA"
@@ -172,7 +172,7 @@ function restart() {
         math: false, portugues: false, biologia: false,
         educacao: false, psicologia: false, moral: false
     };
-    timeLeft = 7 * 60;
+    timeLeft = 12 * 60;
     localStorage.setItem('codes', JSON.stringify(codes));
     localStorage.setItem('timeLeft', timeLeft);
     window.location.href = 'pagina-inicial.html';
