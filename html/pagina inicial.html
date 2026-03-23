@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Room Colégio</title>
+    <link rel="icon" type="image/png" href="../images/logo.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="container">
+        <div id="map">
+            <div id="timer">60:00</div>
+            <div class="hotspot" style="left: 20%; top: 30%;" onclick="enterRoom('math')">Mat</div>
+            <div class="hotspot" style="left: 40%; top: 20%;" onclick="enterRoom('portugues')">Por</div>
+            <div class="hotspot" style="left: 60%; top: 40%;" onclick="enterRoom('psicologia')">Psi</div>
+            <div class="hotspot" style="left: 30%; top: 60%;" onclick="enterRoom('biologia')">Bio</div>
+            <div class="hotspot" style="left: 50%; top: 70%;" onclick="enterRoom('moral')">Mor</div>
+            <div class="hotspot" style="left: 70%; top: 50%;" onclick="enterRoom('educacao')">Edu</div>
+             <div class="hotspot" style="left: 80%; top: 25%;" onclick="enterRoom('mosteiro')">Cul</div>
+            <div class="hotspot" id="exit" style="left: 80%; top: 80%; background-color: red;" onclick="tryExit()">Saída</div>
+        </div>
+    </div>
+    <script src="../js/script.js"></script>
+</body>
+</html>
