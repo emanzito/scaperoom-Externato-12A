@@ -37,7 +37,7 @@ const puzzles = {
         answer: "Guerreiro lusitano"
     },
     senhorinha: {
-        question: "Qual é o nome da santa padroeira de Basto, cuja festa remonta à fundação de Portugal?",
+        question: "Qual é o nome da santa padroeira de Basto, cuja festa remonta à fundação de Portugal? (Pista: é o nome de uma terra em Cabeceiras))",
         answer: "Santa Senhorinha"
     },
     romaria: {
@@ -57,28 +57,28 @@ const puzzles = {
         answer: "Serra da Cabreira"
     },
     math: {
-        question: "Se tens 20 rebuçados e comes metade, quantos ficam?",
-        answer: "10"
+        question: "Qual é o resultado de 15² - 100?",
+        answer: "125"
     },
     portugues: {
-        question: "Qual é o plural de 'cão'?",
-        answer: "Cães"
+        question: "Identifica a figura de estilo em: 'O sol é um disco de ouro'.",
+        answer: "Metáfora"
     },
     biologia: {
-        question: "Qual é o órgão que bombeia o sangue no corpo humano?",
-        answer: "Coração"
+        question: "Como se chama o processo pelo qual as plantas produzem o seu alimento usando luz solar?",
+        answer: "Fotossíntese"
     },
     educacao: {
-        question: "Quantos jogadores tem uma equipa de futebol em campo?",
-        answer: "11"
+        question: "Quantos sets são necessários para ganhar uma partida de ténis num Grand Slam masculino?",
+        answer: "3"
     },
     psicologia: {
         question: "Como se chama o estudo que estuda a mente e os comportamentos humanos?",
         answer: "Psicologia"
     },
     moral: {
-        question: "Completa o ditado: \"Faz o bem sem olhar a...\"",
-        answer: "Quem"
+        question: "Qual é o filósofo grego que afirmou 'Só sei que nada sei'?",
+        answer: "Sócrates"
     }
 };
 
