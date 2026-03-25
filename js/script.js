@@ -4,32 +4,35 @@ let codes = JSON.parse(localStorage.getItem('codes')) || {
     math: false, portugues: false, biologia: false,
     educacao: false, psicologia: false, moral: false
 };
-let timeLeft = 20 * 60;
+
+// Timer: lê sempre do localStorage para persistir entre páginas
+let timeLeft = parseInt(localStorage.getItem('timeLeft'));
+if (isNaN(timeLeft) || timeLeft <= 0) timeLeft = 20 * 60;
+
 let timerInterval;
 
-
+// Frase final: BASTO É TERRA DE TRADIÇÃO VIVA E HISTÓRIA DE UM POVO COM ALMA
 const puzzleWords = {
-    mosteiro:  { word: "BASTO",    order: 1 },
-    basto:     { word: "É",        order: 2 },
-    senhorinha:{ word: "TERRA",    order: 3 },
-    romaria:   { word: "DE",       order: 4 },
-    jogopau:   { word: "TRADIÇÃO", order: 5 },
-    tamega:    { word: "VIVA",     order: 6 },
-    cabreira:  { word: "E",        order: 7 },
-    math:      { word: "HISTÓRIA", order: 8 },
-    portugues: { word: "DE",       order: 9 },
-    biologia:  { word: "UM",       order: 10 },
-    educacao:  { word: "POVO",     order: 11 },
-    psicologia:{ word: "COM",      order: 12 },
-    moral:     { word: "ALMA",     order: 13 }
+    mosteiro:   { word: "BASTO",    order: 1 },
+    basto:      { word: "É",        order: 2 },
+    senhorinha: { word: "TERRA",    order: 3 },
+    romaria:    { word: "DE",       order: 4 },
+    jogopau:    { word: "TRADIÇÃO", order: 5 },
+    tamega:     { word: "VIVA",     order: 6 },
+    cabreira:   { word: "E",        order: 7 },
+    math:       { word: "HISTÓRIA", order: 8 },
+    portugues:  { word: "DE",       order: 9 },
+    biologia:   { word: "UM",       order: 10 },
+    educacao:   { word: "POVO",     order: 11 },
+    psicologia: { word: "COM",      order: 12 },
+    moral:      { word: "ALMA",     order: 13 }
 };
-// Frase completa: BASTO É TERRA DE TRADIÇÃO VIVA E HISTÓRIA DE UM POVO COM ALMA
 
 const FINAL_PHRASE = "BASTO É TERRA DE TRADIÇÃO VIVA E HISTÓRIA DE UM POVO COM ALMA";
 
 const puzzles = {
     mosteiro: {
-        question: "Como se chama o mosteiro mais famoso de Cabeceiras de Basto, localizado em Refojos (escreve o nome completo, não abreviações como S.)?",
+        question: "Como se chama o mosteiro mais famoso de Cabeceiras de Basto, localizado em Refojos?",
         answer: "Mosteiro de São Miguel de Refojos"
     },
     basto: {
@@ -37,7 +40,7 @@ const puzzles = {
         answer: "Guerreiro lusitano"
     },
     senhorinha: {
-        question: "Qual é o nome da santa padroeira de Basto, cuja festa remonta à fundação de Portugal? (Pista: é o nome de uma terra em Cabeceiras)",
+        question: "Qual é o nome da santa padroeira de Basto, cuja festa remonta à fundação de Portugal?",
         answer: "Santa Senhorinha"
     },
     romaria: {
@@ -50,11 +53,11 @@ const puzzles = {
     },
     tamega: {
         question: "Qual é o nome do rio que banha Cabeceiras de Basto?",
-        answer: "Rio Tâmega"
+        answer: "Tâmega"
     },
     cabreira: {
         question: "Qual é o nome da serra que envolve Cabeceiras de Basto a norte?",
-        answer: "Serra da Cabreira"
+        answer: "Cabreira"
     },
     math: {
         question: "Qual é o resultado de 15² - 100?",
@@ -69,8 +72,8 @@ const puzzles = {
         answer: "Fotossíntese"
     },
     educacao: {
-        question: "Quantos pontos são necessários para ganhar um jogo de voleibol?",
-        answer: "25"
+        question: "Quantos sets são necessários para ganhar uma partida de ténis num Grand Slam masculino?",
+        answer: "3"
     },
     psicologia: {
         question: "Como se chama o estudo que estuda a mente e os comportamentos humanos?",
@@ -87,23 +90,25 @@ function saveGame() {
     localStorage.setItem('timeLeft', timeLeft);
 }
 
-function startTimer() {
-    // Set initial display
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
+function updateTimerDisplay() {
     const timerEl = document.getElementById('timer');
-    if (timerEl) {
-        timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-    }
+    if (!timerEl) return;
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+    if (timeLeft <= 120) timerEl.classList.add('warning');
+    else timerEl.classList.remove('warning');
+}
+
+function startTimer() {
+    // Mostra valor atual imediatamente
+    updateTimerDisplay();
+    // Limpa qualquer interval anterior
+    if (timerInterval) clearInterval(timerInterval);
     timerInterval = setInterval(() => {
         timeLeft--;
         saveGame();
-        let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
-        const timerEl = document.getElementById('timer');
-        if (!timerEl) return;
-        timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-        if (timeLeft <= 120) timerEl.classList.add('warning');
+        updateTimerDisplay();
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             alert("O tempo acabou! Tenta novamente.");
@@ -113,6 +118,8 @@ function startTimer() {
 }
 
 function enterRoom(subject) {
+    // Guarda o tempo antes de sair
+    saveGame();
     window.location = `${subject}.html`;
 }
 
@@ -120,7 +127,7 @@ function tryExit() {
     const allSolved = Object.values(codes).every(c => c);
     if (allSolved) {
         clearInterval(timerInterval);
-        localStorage.setItem('timeLeft', timeLeft);
+        saveGame();
         window.location = 'saida.html';
     } else {
         const remaining = Object.entries(codes).filter(([,v]) => !v).length;
@@ -153,8 +160,6 @@ function submitAnswer(subject) {
         feedback.innerHTML = `✓ Correto! Palavra obtida: <strong>${word}</strong>`;
         feedback.className = 'correct';
         input.disabled = true;
-
-        // show word reveal
         const reveal = document.getElementById('word-reveal');
         if (reveal) {
             reveal.textContent = word;
@@ -169,6 +174,7 @@ function submitAnswer(subject) {
 }
 
 function backToMap() {
+    saveGame();
     window.location = 'pagina-inicial.html';
 }
 

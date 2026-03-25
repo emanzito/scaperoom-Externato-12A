@@ -28,6 +28,21 @@
         .creators { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); font-size: 11px; color: rgba(255,255,255,0.15); letter-spacing: 3px; text-transform: uppercase; white-space: nowrap; }
         .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #4ade80; margin-bottom: 2rem; animation: pulse 2s infinite; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        /* Barra de música */
+        #music-bar {
+            position: fixed; bottom: 4rem; left: 50%; transform: translateX(-50%);
+            display: flex; align-items: center; gap: 12px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            padding: 8px 16px; border-radius: 6px; font-size: 12px;
+            color: rgba(255,255,255,0.4); letter-spacing: 1px;
+        }
+        #music-bar button {
+            background: transparent; border: none; color: rgba(255,255,255,0.6);
+            cursor: pointer; font-size: 16px; padding: 0; line-height: 1;
+            transition: color 0.2s;
+        }
+        #music-bar button:hover { color: #fff; }
     </style>
 </head>
 <body>
@@ -37,24 +52,31 @@
     <div class="corner bl"></div>
     <div class="corner br"></div>
 
+  
+    <audio id="victory-music" loop>
+        <source src="../images/james-bond.mp3" type="audio/mpeg">
+    </audio>
+
     <main>
         <div class="label">
             <div class="label-line"></div>
             <span class="label-text">Missão Concluída</span>
             <div class="label-line"></div>
         </div>
-
         <div class="dot"></div>
         <h1>Escapaste!</h1>
         <p class="congrats">Parabéns, conheces bem a terra de Basto!</p>
-
         <div class="time-display" id="time-display">00:00</div>
         <p class="time-label">Tempo restante</p>
-
         <button class="btn" onclick="restart()">Jogar Novamente</button>
     </main>
 
-    <div class="creators">Criado por André · Emanuel · Fernando — © 2026. Todos os direitos reservados.</div>
+    <div id="music-bar">
+        <button id="music-btn" onclick="toggleMusic()">⏸</button>
+        <span>James Bond Theme</span>
+    </div>
+
+    <div class="creators">Criado por André · Emanuel · Fernando · © 2026 ® All Rights Reserved</div>
 
     <script src="../js/script.js"></script>
     <script>
@@ -64,7 +86,27 @@
             let s = t % 60;
             document.getElementById('time-display').textContent =
                 m.toString().padStart(2,'0') + ':' + s.toString().padStart(2,'0');
+
+            // Toca a música automaticamente
+            const music = document.getElementById('victory-music');
+            music.volume = 0.7;
+            music.play().catch(() => {
+                // Autoplay bloqueado pelo browser — aguarda interação
+                document.addEventListener('click', () => music.play(), { once: true });
+            });
         };
+
+        function toggleMusic() {
+            const music = document.getElementById('victory-music');
+            const btn = document.getElementById('music-btn');
+            if (music.paused) {
+                music.play();
+                btn.textContent = '⏸';
+            } else {
+                music.pause();
+                btn.textContent = '▶';
+            }
+        }
     </script>
 </body>
 </html>
