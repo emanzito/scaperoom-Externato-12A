@@ -4,10 +4,10 @@ let codes = JSON.parse(localStorage.getItem('codes')) || {
     math: false, portugues: false, biologia: false,
     educacao: false, psicologia: false, moral: false
 };
-let timeLeft = parseInt(localStorage.getItem('timeLeft')) || 12 * 60;
+let timeLeft = 20 * 60;
 let timerInterval;
 
-// Frase final: "BASTO É TERRA DE TRADIÇÃO VIVA E HISTÓRIA"
+
 const puzzleWords = {
     mosteiro:  { word: "BASTO",    order: 1 },
     basto:     { word: "É",        order: 2 },
@@ -37,7 +37,7 @@ const puzzles = {
         answer: "Guerreiro lusitano"
     },
     senhorinha: {
-        question: "Qual é o nome da santa padroeira de Basto, cuja festa remonta à fundação de Portugal? (Pista: é o nome de uma terra em Cabeceiras))",
+        question: "Qual é o nome da santa padroeira de Basto, cuja festa remonta à fundação de Portugal? (Pista: é o nome de uma terra em Cabeceiras)",
         answer: "Santa Senhorinha"
     },
     romaria: {
@@ -50,7 +50,7 @@ const puzzles = {
     },
     tamega: {
         question: "Qual é o nome do rio que banha Cabeceiras de Basto?",
-        answer: "Tâmega"
+        answer: "Rio Tâmega"
     },
     cabreira: {
         question: "Qual é o nome da serra que envolve Cabeceiras de Basto a norte?",
@@ -69,8 +69,8 @@ const puzzles = {
         answer: "Fotossíntese"
     },
     educacao: {
-        question: "Quantos sets são necessários para ganhar uma partida de ténis num Grand Slam masculino?",
-        answer: "3"
+        question: "Quantos pontos são necessários para ganhar um jogo de voleibol?",
+        answer: "25"
     },
     psicologia: {
         question: "Como se chama o estudo que estuda a mente e os comportamentos humanos?",
@@ -88,6 +88,13 @@ function saveGame() {
 }
 
 function startTimer() {
+    // Set initial display
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    const timerEl = document.getElementById('timer');
+    if (timerEl) {
+        timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+    }
     timerInterval = setInterval(() => {
         timeLeft--;
         saveGame();
@@ -172,7 +179,7 @@ function restart() {
         math: false, portugues: false, biologia: false,
         educacao: false, psicologia: false, moral: false
     };
-    timeLeft = 12 * 60;
+    timeLeft = 20 * 60;
     localStorage.setItem('codes', JSON.stringify(codes));
     localStorage.setItem('timeLeft', timeLeft);
     window.location.href = 'pagina-inicial.html';

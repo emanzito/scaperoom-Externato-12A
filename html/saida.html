@@ -91,17 +91,22 @@
     <script>
         const ALL_SUBJECTS = ['mosteiro','basto','senhorinha','romaria','jogopau','tamega','cabreira','math','portugues','biologia','educacao','psicologia','moral'];
 
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
         window.onload = function() {
+            const collectedSubjects = ALL_SUBJECTS.filter(s => codes[s]);
+            const shuffledSubjects = shuffle([...collectedSubjects]);
             const list = document.getElementById('words-list');
-            ALL_SUBJECTS.forEach(s => {
+            shuffledSubjects.forEach(s => {
                 const badge = document.createElement('span');
-                if (codes[s]) {
-                    badge.className = 'word-badge';
-                    badge.textContent = puzzleWords[s].word;
-                } else {
-                    badge.className = 'word-badge missing';
-                    badge.textContent = '???';
-                }
+                badge.className = 'word-badge';
+                badge.textContent = puzzleWords[s].word;
                 list.appendChild(badge);
             });
         };

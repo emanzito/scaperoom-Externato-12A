@@ -48,14 +48,14 @@
             top: calc(100% + 6px); left: 50%;
             transform: translateX(-50%);
             font-size: 11px; font-weight: 500; letter-spacing: 2px;
-            text-transform: uppercase; color: rgba(255,255,255,0);
+            text-transform: uppercase; color: transparent; opacity: 0;
             white-space: nowrap; transition: color 0.3s;
             text-shadow: 0 1px 4px rgba(0,0,0,0.9);
             pointer-events: none;
         }
-        .hotspot:hover .label { color: rgba(255,255,255,0.95); }
+        .hotspot:hover .label { color: rgba(255,255,255,0.95); opacity: 1; text-shadow: 0 1px 4px rgba(0,0,0,0.9); }
         .hotspot.solved { border-color: rgba(74,222,128,0.5) !important; background: rgba(74,222,128,0.05); }
-        .hotspot.solved .label { color: rgba(74,222,128,0.9) !important; }
+        .hotspot.solved:hover .label { color: rgba(74,222,128,0.9) !important; }
 
         #exit { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 20; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.35); border: 1px solid rgba(255,255,255,0.12); padding: 12px 36px; font-size: 12px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; border-radius: 3px; transition: all 0.3s; font-family: inherit; }
         #exit.ready { background: rgba(74,222,128,0.15); color: #4ade80; border-color: rgba(74,222,128,0.4); box-shadow: 0 0 20px rgba(74,222,128,0.1); }
@@ -70,23 +70,23 @@
         <img id="map-img" src="../images/fundoescondido1.png" alt="mapa">
         <div id="map-inner">
             <!-- data-x e data-y em % da imagem | size-small para imagens pequenas escondidas -->
-            <div class="hotspot size-normal"  data-x="3"  data-y="9"  onclick="enterRoom('romaria')">   <div class="label">Romaria</div></div>
-            <div class="hotspot size-small"  data-x="59" data-y="2" onclick="enterRoom('tamega')">    <div class="label">Rio Tâmega</div></div>
-            <div class="hotspot size-small"  data-x="45.5" data-y="13.5" onclick="enterRoom('cabreira')">  <div class="label">Serra da Cabreira</div></div>
-            <div class="hotspot size-small"  data-x="64.9" data-y="14.8" onclick="enterRoom('educacao')">  <div class="label">Ed. Física</div></div>
-            <div class="hotspot size-small"  data-x="20" data-y="35.6" onclick="enterRoom('biologia')">  <div class="label">Biologia</div></div>
-            <div class="hotspot size-normal" data-x="41.4" data-y="55" onclick="enterRoom('moral')">     <div class="label">Moral</div></div>
-            <div class="hotspot size-normal" data-x="62.5" data-y="52" onclick="enterRoom('jogopau')">   <div class="label">Jogo do Pau</div></div>
-            <div class="hotspot size-small"  data-x="82.3" data-y="60" onclick="enterRoom('mosteiro')">  <div class="label">Mosteiro</div></div>
-            <div class="hotspot size-small"  data-x="12.8" data-y="80" onclick="enterRoom('basto')">     <div class="label">O Basto</div></div>
-            <div class="hotspot size-small"  data-x="30" data-y="77" onclick="enterRoom('portugues')"> <div class="label">Português</div></div>
-            <div class="hotspot size-small"  data-x="49.7" data-y="83" onclick="enterRoom('senhorinha')"><div class="label">Sta. Senhorinha</div></div>
-            <div class="hotspot size-small"  data-x="62.6" data-y="74.5" onclick="enterRoom('math')">      <div class="label">Matemática</div></div>
-            <div class="hotspot size-small"  data-x="86.8" data-y="88.8" onclick="enterRoom('psicologia')"><div class="label">Psicologia</div></div>
+            <div class="hotspot size-normal"  data-x="3"  data-y="9"  onclick="enterRoom('romaria')">   <div class="label">Zona A</div></div>
+            <div class="hotspot size-small"  data-x="59" data-y="2" onclick="enterRoom('tamega')">    <div class="label">Zona B</div></div>
+            <div class="hotspot size-small"  data-x="45.5" data-y="13.5" onclick="enterRoom('cabreira')">  <div class="label">Zona C</div></div>
+            <div class="hotspot size-small"  data-x="64.9" data-y="14.8" onclick="enterRoom('educacao')">  <div class="label">Zona D</div></div>
+            <div class="hotspot size-small"  data-x="20" data-y="35.6" onclick="enterRoom('biologia')">  <div class="label">Zona E</div></div>
+            <div class="hotspot size-normal" data-x="41.4" data-y="55" onclick="enterRoom('moral')">     <div class="label">Zona F</div></div>
+            <div class="hotspot size-normal" data-x="62.5" data-y="52" onclick="enterRoom('jogopau')">   <div class="label">Zona G</div></div>
+            <div class="hotspot size-small"  data-x="82.3" data-y="60" onclick="enterRoom('mosteiro')">  <div class="label">S. Miguel</div></div>
+            <div class="hotspot size-small"  data-x="12.8" data-y="80" onclick="enterRoom('basto')">     <div class="label">Zona I</div></div>
+            <div class="hotspot size-small"  data-x="30" data-y="77" onclick="enterRoom('portugues')"> <div class="label">Zona J</div></div>
+            <div class="hotspot size-small"  data-x="49.7" data-y="83" onclick="enterRoom('senhorinha')"><div class="label">Zona K</div></div>
+            <div class="hotspot size-small"  data-x="62.6" data-y="74.5" onclick="enterRoom('math')">      <div class="label">Zona L</div></div>
+            <div class="hotspot size-small"  data-x="86.8" data-y="88.8" onclick="enterRoom('psicologia')"><div class="label">Zona M</div></div>
         </div>
     </div>
 
-    <div id="timer">07:00</div>
+    <div id="timer"></div>
     <div id="progress-dots">
         <div class="prog-dot" id="dot-mosteiro"></div>
         <div class="prog-dot" id="dot-basto"></div>
