@@ -72,7 +72,7 @@ const puzzles = {
         answer: "Fotossíntese"
     },
     educacao: {
-        question: "Quantos sets sao necessarios para ganhar um jogo de voleibol?",
+        question: "Quantos sets sao necessários para ganhar um jogo de voleibol?",
         answer: "25"
     },
     psicologia: {
