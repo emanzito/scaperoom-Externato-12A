@@ -72,8 +72,8 @@ const puzzles = {
         answer: "Fotossíntese"
     },
     educacao: {
-        question: "Quantos sets são necessários para ganhar uma partida de ténis num Grand Slam masculino?",
-        answer: "3"
+        question: "Quantos sets sao necessarios para ganhar um jogo de voleibol?",
+        answer: "25"
     },
     psicologia: {
         question: "Como se chama o estudo que estuda a mente e os comportamentos humanos?",
